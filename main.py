@@ -4,19 +4,6 @@ from classes.magic import  Spell
 from classes.inventory import Item
 
 
-print("NAME                      HP                                      MP")
-print("                          =========================               ==========")
-print(bcolors.BOLD + "Zack Fire:" , "       460/460" + bcolors.OKGREEN + "|█████████████████████████|"  +
-      "        65/65"+bcolors.OKBLUE+ "|██████████|"+ bcolors.ENDC)
-
-print(bcolors.BOLD + "Zack Fire:" , "       460/460" + bcolors.OKGREEN + "|█████████████████████████|"  +
-      "        65/65"+bcolors.OKBLUE+ "|██████████|"+ bcolors.ENDC)
-print(bcolors.BOLD + "Zack Fire:" , "       460/460" + bcolors.OKGREEN + "|█████████████████████████|"  +
-      "        65/65"+bcolors.OKBLUE+ "|██████████|"+ bcolors.ENDC)
-print(bcolors.BOLD + "Zack Fire:" , "       460/460" + bcolors.OKGREEN + "|█████████████████████████|"  +
-      "        65/65"+bcolors.OKBLUE+ "|██████████|"+ bcolors.ENDC)
-
-print("\n")
 
 #Creamos las magias negras
 fire = Spell("Fire", 10, 150, "black")
@@ -44,16 +31,27 @@ player_spells = [fire, thunder, ice, queake, meteor, cure, cureP]
 player_items = [{"item": potion, "quantity": 15}, {"item": hipotion, "quantity": 5}, {"item": superpotion, "quantity": 5},
                 {"item": elixir, "quantity": 3}, {"item": hielixir, "quantity": 1}, {"item": grenade, "quantity": 8}]
 #Personajes
-player = Person(460, 165, 80, 34, player_spells , player_items)
-enemy = Person(1200, 65, 45, 25, [], [])
+player1 = Person("Zack:", 3200, 165, 80, 34, player_spells , player_items)
+player2 = Person("Pyke:", 4500, 165, 80, 34, player_spells , player_items)
+player3 = Person("Sora:", 3000, 165, 80, 34, player_spells , player_items)
+
+players = [player1, player2, player3]
+
+enemy = Person("Tiamazt",1200, 65, 45, 25, [], [])
 
 running: bool = True
 i = 0
 print(bcolors.FAIL + bcolors.BOLD + "AN ENEMY ATTACKS!!" + bcolors.ENDC)
 while running:
     print("=======================")
-    player.choose_action()
-    try:
+    print("\n")
+    print("NAME:               "+ "HP                                     "+ "MP             ")
+    for player in players:
+        player.get_stats()
+
+    for player in players:
+        player.choose_action()
+
         choice = input("Chose a action: ")
         index = int(choice) -1
 
@@ -121,29 +119,22 @@ while running:
         elif index == 3:
             running = False
 
-        enemy_choice = 1
-        enemy_dmg = enemy.generate_damage()
-        player.take_damge(enemy_dmg)
-        print(bcolors.FAIL + bcolors.HEADER + "Enemy attacks for:", str(enemy_dmg) + bcolors.ENDC + "\n")
+    enemy_choice = 1
+    enemy_dmg = enemy.generate_damage()
+    player.take_damge(enemy_dmg)
+    print(bcolors.FAIL + bcolors.HEADER + "Enemy attacks for:", str(enemy_dmg) + bcolors.ENDC + "\n")
 
-        print("-------------------------------")
-        print("Enemy HP: ", bcolors.FAIL + str(enemy.get_hp()) + "/" + str(enemy.get_maxhp()) + bcolors.ENDC + "\n")
-        print("Your HP: ", bcolors.OKGREEN + str(player.get_hp()) + "/" + str(player.get_maxhp()) + bcolors.ENDC + "\n")
-        print("Your MP:", bcolors.OKBLUE + str(player.get_mp())+ "/"+str(player.get_max_mp()) + bcolors.ENDC + "\n")
-
-
-
-        if enemy.get_hp() ==0:
-           print(bcolors.OKGREEN + bcolors.BOLD + "You win" + bcolors.ENDC)
-           running=False
-        elif player.get_hp() == 0:
-            print(bcolors.FAIL + " You loose" + bcolors.ENDC)
-            running=False
-
-    except ValueError:
-        print("The value must be a number, try again")
-        continue
+    print("-------------------------------")
+    print("Enemy HP: ", bcolors.FAIL + str(enemy.get_hp()) + "/" + str(enemy.get_maxhp()) + bcolors.ENDC + "\n")
+    print("Your HP: ", bcolors.OKGREEN + str(player.get_hp()) + "/" + str(player.get_maxhp()) + bcolors.ENDC + "\n")
+    print("Your MP:", bcolors.OKBLUE + str(player.get_mp())+ "/"+str(player.get_max_mp()) + bcolors.ENDC + "\n")
 
 
 
+    if enemy.get_hp() ==0:
+       print(bcolors.OKGREEN + bcolors.BOLD + "You win" + bcolors.ENDC)
+       running=False
+    elif player.get_hp() == 0:
+        print(bcolors.FAIL + " You loose" + bcolors.ENDC)
+        running=False
 

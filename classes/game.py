@@ -11,7 +11,7 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 class Person:
-    def __init__(self, hp, mp, atk, df, magic, items):
+    def __init__(self, name, hp, mp, atk, df, magic, items):
         self.maxhp=hp
         self.hp=hp
         self.maxmp=mp
@@ -22,6 +22,7 @@ class Person:
         self.magic= magic
         self.items = items
         self.actions = ["Attack", "Magic", "Items", "Exit"]
+        self.name = name
 
     def generate_damage(self):
         return random.randrange(self.atkl,self.atkh)
@@ -71,3 +72,9 @@ class Person:
         for item in self.items:
             print("    ", str(i) + ".", item["item"].name, ":",  item["item"].description, "(x" + str(item["quantity"]) + ")")
             i += 1
+    def get_stats(self):
+
+
+        print(
+            bcolors.BOLD + str(self.name) +"      " +  str(self.hp) + "/" + str(self.maxhp) + bcolors.OKGREEN + "|█████████████████████████|" + bcolors.ENDC +
+            "    "+str(self.mp) + "/" + str(self.maxmp) + bcolors.OKBLUE + "|██████████|" + bcolors.ENDC)
