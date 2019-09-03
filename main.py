@@ -37,8 +37,13 @@ player3 = Person("Sora:", 3000, 166, 80, 34, player_spells , player_items)
 
 players = [player1, player2, player3]
 
-enemy = Person("Tiamazt",12000, 800, 350, 25, [], [])
+enemy1 = Person("Tiamazt",12000, 800, 350, 25, [], [])
+enemy2 = Person("Texter", 1250, 130, 560, 325, [], [])
+enemy3 = Person("Slif", 1500, 150, 560, 325, [], [])
+#enemy5= Person("Sephiroth")
 
+
+enemies = [ enemy1, enemy2, enemy3]
 running: bool = True
 i = 0
 print("\n")
@@ -51,7 +56,9 @@ while running:
         player.get_stats()
 
     print("\n")
-    enemy.get_enemy_stats()
+
+    for enemy in enemies:
+        enemy.get_enemy_stats()
 
     for player in players:
         #print("\n")
@@ -67,8 +74,10 @@ while running:
         #Si es igual a 0 atacamos
         if index == 0:
             dmg = player.generate_damage()
-            enemy.take_damge(dmg)
-            print("    You attacked for:", dmg, "points of damage. ")
+            enemy =  player.choose_target(enemies)
+
+            enemies[enemy].take_damge(dmg)
+            print("    You attacked for:", + enemies[enemy].name + dmg, "points of damage. ")
 
         #Si es igual a 1 entramos en las Magias
         elif index == 1:
@@ -93,18 +102,22 @@ while running:
                     curepartial = player.maxhp - player.hp
                     player.heal(curepartial)
                     player.reduce_mp(spell.cost)
+                    print(bcolors.OKBLUE + "\n    " + spell.name + " heals", str(curepartial),
+                         "points of life" + bcolors.ENDC)
                     continue
 
                 else:
                     player.heal(magic_dmg)
                     player.reduce_mp(spell.cost)
+                    print(bcolors.OKBLUE + "\n    " + spell.name + " heals", str(magic_dmg),
+                          "points of life" + bcolors.ENDC)
                     continue
 
+            elif spell.type=="black":
+                player.reduce_mp(spell.cost)
+                enemy.take_damge(magic_dmg)
 
-            player.reduce_mp(spell.cost)
-            enemy.take_damge(magic_dmg)
-
-            print(bcolors.OKBLUE + "\n    " + spell.name + " deals", str(magic_dmg), "points of damage" + bcolors.ENDC)
+                print(bcolors.OKBLUE + "\n    " + spell.name + " deals", str(magic_dmg), "points of damage" + bcolors.ENDC)
         #Si es igual a 2 elegimos los items
         elif index == 2:
             player.choose_item()
