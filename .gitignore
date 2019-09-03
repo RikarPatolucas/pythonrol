@@ -1,4 +1,5 @@
-venv
-.idea/vcs.xml
-.idea/workspace.xml
-classes/__pycache__/game.cpython-37.pyc
+*
+!*/
+!.gitignore
+!main.py
+!classes
