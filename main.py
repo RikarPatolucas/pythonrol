@@ -2,6 +2,7 @@
 from classes.game import Person, bcolors
 from classes.magic import  Spell
 from classes.inventory import Item
+import random
 
 
 
@@ -32,14 +33,14 @@ player_items = [{"item": potion, "quantity": 15}, {"item": hipotion, "quantity":
                 {"item": elixir, "quantity": 3}, {"item": hielixir, "quantity": 1}, {"item": grenade, "quantity": 8}]
 #Personajes
 player1 = Person("Zack:", 3200, 132, 80, 34, player_spells , player_items)
-player2 = Person("Pyke:", 4500, 180, 80, 34, player_spells , player_items)
+player2 = Person("Leon:", 4500, 180, 80, 34, player_spells , player_items)
 player3 = Person("Sora:", 3000, 166, 80, 34, player_spells , player_items)
 
 players = [player1, player2, player3]
 
 enemy1 = Person("Tiamazt",12000, 800, 350, 25, [], [])
-enemy2 = Person("Texter", 1250, 130, 560, 325, [], [])
-enemy3 = Person("Slif", 1500, 150, 560, 325, [], [])
+enemy2 = Person("Texter   ", 1250, 130, 560, 325, [], [])
+enemy3 = Person("Slif     ", 1500, 150, 560, 325, [], [])
 #enemy5= Person("Sephiroth")
 
 
@@ -77,7 +78,7 @@ while running:
             enemy =  player.choose_target(enemies)
 
             enemies[enemy].take_damge(dmg)
-            print("    You attacked for:", + enemies[enemy].name + dmg, "points of damage. ")
+            print(bcolors.WARNING +"    You attacked "+ "for" , dmg , "points of damage to " +  enemies[enemy].name + bcolors.ENDC )
 
         #Si es igual a 1 entramos en las Magias
         elif index == 1:
@@ -115,9 +116,9 @@ while running:
 
             elif spell.type=="black":
                 player.reduce_mp(spell.cost)
-                enemy.take_damge(magic_dmg)
-
-                print(bcolors.OKBLUE + "\n    " + spell.name + " deals", str(magic_dmg), "points of damage" + bcolors.ENDC)
+                enemy = player.choose_target(enemies)
+                enemies[enemy].take_damge(magic_dmg)
+                print(bcolors.OKBLUE + "\n    " + spell.name + " deals "+  str(magic_dmg), "points of damage to: " + enemies[enemy].name + bcolors.ENDC)
         #Si es igual a 2 elegimos los items
         elif index == 2:
             player.choose_item()
@@ -152,16 +153,19 @@ while running:
                 print(bcolors.WARNING + "\n" + item.name + " fully restores " + bcolors.OKGREEN + "Max HP " + bcolors.WARNING + "and " + bcolors.OKBLUE + "Max MP" + bcolors.ENDC )
             #Si son de tipo ataque
             if item.type == "attack":
-                enemy.take_damge(item.prop)
-                print(bcolors.WARNING + "\n" + item.name+ " deals: " + bcolors.FAIL + str(item.prop) + " points of damage" + bcolors.ENDC)
+                enemy = player.choose_target(enemies)
+                enemies[enemy].take_damge(item.prop)
+                print(bcolors.WARNING + "\n" + item.name+ " deals: " + bcolors.FAIL + str(item.prop) + " points of damage to:_"+ enemies[enemy].name + bcolors.ENDC)
         elif index == 3:
             running = False
 
     enemy_choice = 1
-    enemy_dmg = enemy.generate_damage()
-    player.take_damge(enemy_dmg)
+    target = random.randrange(0, 3)
+    enemy_dmg = enemies[0].generate_damage()
+    players[target].take_damge(enemy_dmg)
     print("\n")
-    print(bcolors.FAIL + bcolors.BOLD+ "    Enemy attacks for:", str(enemy_dmg) + bcolors.ENDC + "\n")
+    print(bcolors.FAIL + bcolors.BOLD + "    Enemy attacks for: " + str(enemy_dmg)  +" damage" + " to " + str(players[target].name)  + bcolors.ENDC + "\n")
+   # print(bcolors.OKBLUE + "\n    " + spell.name + " deals " + str(magic_dmg), "points of damage to: " + enemies[enemy].name + bcolors.ENDC)
 
     print("-------------------------------")
 
@@ -169,7 +173,7 @@ while running:
 
 
 
-    if enemy.get_hp() ==0:
+    if enemies[enemy].get_hp() ==0:
        print(bcolors.OKGREEN + bcolors.BOLD + "You win" + bcolors.ENDC)
        running=False
     elif player.get_hp() == 0:

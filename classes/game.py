@@ -111,7 +111,7 @@ class Person:
             current_hp = hp_string
 
 
-        print("    " + bcolors.BOLD + self.name + ":"+ "             " +current_hp + bcolors.FAIL  +
+        print("    " + bcolors.BOLD + self.name + "             " +current_hp + bcolors.FAIL  +
               "|" + hp_bar + "|" + bcolors.ENDC + "\n")
 
 
