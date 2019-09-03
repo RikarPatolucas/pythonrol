@@ -92,7 +92,7 @@ class Person:
         bar_ticks = (self.hp / self.maxhp) * 100 / 2
 
         while bar_ticks > 0:
-            hp_bar +="█"
+            hp_bar +="\u2588"
             bar_ticks -= 1
 
         while len(hp_bar)< 50 :
@@ -120,7 +120,7 @@ class Person:
         hp_bar = ""
         bar_ticks= (self.hp / self.maxhp) * 100 / 4
         while bar_ticks > 0:
-            hp_bar += "█"
+            hp_bar += "\u2588"
             bar_ticks -=1
 
         while len(hp_bar)<25:
@@ -130,7 +130,7 @@ class Person:
         mp_ticks= (self.mp / self.maxmp) * 100 / 10
 
         while mp_ticks > 0:
-            mp_bar += "█"
+            mp_bar += "\u2588"
             mp_ticks -= 1
 
         while len(mp_bar) < 10:
