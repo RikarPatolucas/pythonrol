@@ -86,6 +86,25 @@ class Person:
 
 
 
+    def choose_ally(self, allies):
+        i=1
+        print("\n" + bcolors.OKGREEN + bcolors.BOLD + "     TARGET:" + bcolors.ENDC)
+        for ally in allies:
+            partial = ally.hp
+            partial2 = ally.maxhp
+            partial3 = partial2 / partial
+            if partial3  <2.0:
+                print("        " + str(i) + "." + ally.name + "actually HP: "  +bcolors.WARNING + str(ally.hp) + "/" + str(ally.maxhp) + bcolors.ENDC)
+                i += 1
+            elif partial3 >=2.0:
+                print("        "  + str(i) + "." + ally.name + " actually HP: " + bcolors.FAIL + str(ally.hp) + "/" + str(ally.maxhp) +bcolors.ENDC)
+                i += 1
+
+        choice = int(input("    Choose target:")) - 1
+        return choice
+
+
+
     def get_enemy_stats(self):
         global hp_bar
         hp_bar =""

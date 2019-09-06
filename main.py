@@ -38,14 +38,14 @@ player3 = Person("Sora:", 3000, 166, 80, 34, player_spells , player_items)
 
 players = [player1, player2, player3]
 
-enemy1 = Person("Tiamazt",12000, 800, 350, 25, [], [])
+enemy1 = Person("Tiamazt",12000, 800, 560, 25, [], [])
 enemy2 = Person("Texter   ", 1250, 130, 560, 325, [], [])
 enemy3 = Person("Slif     ", 1500, 150, 560, 325, [], [])
 #enemy5= Person("Sephiroth")
 
-
+allies = [player1, player2, player3]
 enemies = [ enemy1, enemy2, enemy3]
-running: bool = True
+running = True
 i = 0
 print("\n")
 print(bcolors.FAIL + bcolors.BOLD + "                             AN ENEMY ATTACKS!!" + bcolors.ENDC)
@@ -98,17 +98,20 @@ while running:
                 continue
 
             if spell.type == "white":
-                curetotal = player.hp + magic_dmg
-                if curetotal > player.maxhp:
-                    curepartial = player.maxhp - player.hp
-                    player.heal(curepartial)
+
+                ally = player.choose_ally(allies)
+
+                curetotal = allies[ally].hp + magic_dmg
+                if curetotal > allies[ally].maxhp:
+                    curepartial = allies[ally].maxhp - allies[ally].hp
+                    allies[ally].heal(curepartial)
                     player.reduce_mp(spell.cost)
                     print(bcolors.OKBLUE + "\n    " + spell.name + " heals", str(curepartial),
-                         "points of life" + bcolors.ENDC)
+                         "points of life, but not do a overheal"+ bcolors.ENDC)
                     continue
 
                 else:
-                    player.heal(magic_dmg)
+                    allies[ally].heal(magic_dmg)
                     player.reduce_mp(spell.cost)
                     print(bcolors.OKBLUE + "\n    " + spell.name + " heals", str(magic_dmg),
                           "points of life" + bcolors.ENDC)
