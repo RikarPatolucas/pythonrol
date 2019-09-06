@@ -32,35 +32,39 @@ player_spells = [fire, thunder, ice, queake, meteor, cure, cureP]
 player_items = [{"item": potion, "quantity": 15}, {"item": hipotion, "quantity": 5}, {"item": superpotion, "quantity": 5},
                 {"item": elixir, "quantity": 3}, {"item": hielixir, "quantity": 1}, {"item": grenade, "quantity": 8}]
 #Personajes
-player1 = Person("Zack:", 3200, 132, 80, 34, player_spells , player_items)
-player2 = Person("Leon:", 4500, 180, 80, 34, player_spells , player_items)
-player3 = Person("Sora:", 3000, 166, 80, 34, player_spells , player_items)
+player1 = Person("Zack:", 3200, 132, 80, 34, player_spells , player_items, "no")
+player2 = Person("Leon:", 4500, 180, 80, 34, player_spells , player_items, "no")
+player3 = Person("Sora:", 3000, 166, 80, 34, player_spells , player_items, "no")
 
 players = [player1, player2, player3]
 
-enemy1 = Person("Tiamazt",12000, 800, 560, 25, [], [])
-enemy2 = Person("Texter   ", 1250, 130, 560, 325, [], [])
-enemy3 = Person("Slif     ", 1500, 150, 560, 325, [], [])
+enemy1 = Person("Tiamazt",12000, 800, 560, 25, [], [], "no")
+enemy2 = Person("Texter   ", 1250, 130, 560, 325, [], [], "no")
+enemy3 = Person("Slif     ", 1500, 150, 560, 325, [], [] , "no")
 #enemy5= Person("Sephiroth")
 
 allies = [player1, player2, player3]
 enemies = [ enemy1, enemy2, enemy3]
 running = True
 i = 0
+count = 0
 print("\n")
 print(bcolors.FAIL + bcolors.BOLD + "                             AN ENEMY ATTACKS!!" + bcolors.ENDC)
+
+#Bucle para correr el juego
 while running:
     print("                          ========================")
     print("\n")
     print("    NAME:               "+ " HP                                     "+ "MP             ")
+  #Cogemos las stats de los jugadores
     for player in players:
         player.get_stats()
 
     print("\n")
-
+ #Cogemos las stats de los enemigos
     for enemy in enemies:
         enemy.get_enemy_stats()
-
+  #Vamos a ir a elegir las acciones por cada jugador
     for player in players:
         #print("\n")
         player.choose_action()
@@ -131,21 +135,26 @@ while running:
                 continue
             #Por si queremos volver atras
             if item_choice == -1:
-                continue
+             magic_choice= int(input("    Choose Magic: "))-1
+             continue
 
             item = player_items[item_choice]["item"]
             player.items[item_choice]["quantity"] -= 1
             #Si son de tipo curacion
             if item.type == "potion":
 
-                curetotal2 = player.hp + item.prop
-                if curetotal2 > player.maxhp:
-                    curepartial2 = player.maxhp - player.hp
-                    player.heal(curepartial2)
+                ally = player.choose_ally(allies)
+
+                curetotal2 = allies[ally].hp + item.prop
+                if curetotal2 > allies[ally].maxhp:
+                    curepartial2 = allies[ally].maxhp - allies[ally].hp
+                    allies[ally].heal(curepartial2)
                     print(bcolors.OKGREEN + "\n    " + item.name + " heals for " + str(curepartial2), "HP" + bcolors.ENDC)
                 else:
-                    player.heal(item.prop)
+                    allies[ally].heal(item.prop)
                     print(bcolors.OKGREEN + "\n    " + item.name + " heals for " + str(item.prop), "HP" + bcolors.ENDC)
+                    print (bcolors.OKGREEN + "    HP " +  allies[ally].name + str(allies[ally].hp) + bcolors.ENDC)
+
 
 
 
@@ -160,8 +169,16 @@ while running:
                 enemies[enemy].take_damge(item.prop)
                 print(bcolors.WARNING + "\n" + item.name+ " deals: " + bcolors.FAIL + str(item.prop) + " points of damage to:_"+ enemies[enemy].name + bcolors.ENDC)
         elif index == 3:
-            running = False
+            countpre = count
+            decision = int(input ("    Are you sure? Pulse 0 for Return or 1 for continue: "))
+            count =+ decision
+            if countpre == count:
+                print
 
+
+
+
+   #Aqui los jugadores ya han elegido y toca a los enemigos
     enemy_choice = 1
     target = random.randrange(0, 3)
     enemy_dmg = enemies[0].generate_damage()
@@ -172,14 +189,10 @@ while running:
 
     print("-------------------------------")
 
-
-
-
-
-    if enemies[enemy].get_hp() ==0:
+    #Si los enemigos han llegado todos a cero
+    if enemies[0].get_hp() ==0 and enemies[1].get_hp()==0 and enemies[2].get_hp()==0 :
        print(bcolors.OKGREEN + bcolors.BOLD + "You win" + bcolors.ENDC)
        running=False
     elif player.get_hp() == 0:
         print(bcolors.FAIL + " You loose" + bcolors.ENDC)
         running=False
-
