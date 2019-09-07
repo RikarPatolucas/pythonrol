@@ -130,10 +130,12 @@ class Person:
         else:
             current_hp = hp_string
 
-
-        print("    " + bcolors.BOLD + self.name + "             " +current_hp + bcolors.FAIL  +
+        if self.hp > 0:
+            print("    " + bcolors.BOLD + self.name + "             " +current_hp + bcolors.FAIL  +
               "|" + hp_bar + "|" + bcolors.ENDC + "\n")
-
+        else:
+            print("    " + bcolors.BOLD + self.name + "             " + current_hp + bcolors.FAIL +
+              "                        IS DEAD                                 " + bcolors.ENDC + "\n" )
 
     def get_stats(self):
         #Calcular las barras de vida
