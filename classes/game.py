@@ -11,7 +11,7 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 class Person:
-    def __init__(self, name, hp, mp, atk, df, magic, items):
+    def __init__(self, name, hp, mp, atk, df, magic, items, turn):
         self.maxhp=hp
         self.hp=hp
         self.maxmp=mp
@@ -21,8 +21,9 @@ class Person:
         self.df=df
         self.magic= magic
         self.items = items
-        self.actions = ["Attack", "Magic", "Items", "Exit"]
+        self.actions = ["Attack", "Magic", "Items", "Exit (Pass)"]
         self.name = name
+        self.turn = turn
 
     def generate_damage(self):
         return random.randrange(self.atkl,self.atkh)
@@ -129,10 +130,12 @@ class Person:
         else:
             current_hp = hp_string
 
-
-        print("    " + bcolors.BOLD + self.name + "             " +current_hp + bcolors.FAIL  +
+        if self.hp > 0:
+            print("    " + bcolors.BOLD + self.name + "             " +current_hp + bcolors.FAIL  +
               "|" + hp_bar + "|" + bcolors.ENDC + "\n")
-
+        else:
+            print("    " + bcolors.BOLD + self.name + "             " + current_hp + bcolors.FAIL +
+              "                        IS DEAD                                 " + bcolors.ENDC + "\n" )
 
     def get_stats(self):
         #Calcular las barras de vida
