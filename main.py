@@ -3,7 +3,7 @@ from classes.game import Person, bcolors
 from classes.magic import  Spell
 from classes.inventory import Item
 import random
-
+import json
 # Vamos a introducir la historia y eleccion de personajes
 print ("\n")
 print(  bcolors.WARNING + "Bienvenido al juego de Rol de Rikarpatolucas, a partir de aqui, no existiran puntos de guardado ni vueltas atras." +  ("\n") +
@@ -14,9 +14,10 @@ print(  bcolors.WARNING + "Bienvenido al juego de Rol de Rikarpatolucas, a parti
 #print("\n")
 firstdecision = str( input ("Cual es tu decision? "))
 print ("\n")
+per=0
+clase = True
 
-if firstdecision == "Adelante":
-
+while clase:
 
     print(bcolors.BOLD + "Muy bien Guerreo ")
     print("Lo primero es explicarte las distintas clases en las que como guerrero te puedes especializar: " + "\n" )
@@ -24,8 +25,27 @@ if firstdecision == "Adelante":
     print(bcolors.BOLD + "    2." + bcolors.OKBLUE + "MAGO: " + bcolors.ENDC + bcolors.BOLD + "Guerrero especializado en ataques magicos y potencia de ataques magicos, la cantidad de puntos magicos y mana es muy altos")
     print(bcolors.BOLD + "    3." + bcolors.FAIL + "ASESINO: " + bcolors.ENDC + bcolors.BOLD + "Guerrero especializado en hacer daño de forma elevada en sus ataques fisicos, su cantidad de vida y mana es menor")
     print("\n")
+    if per ==0:
+        print("     En primer lugar tenemos a Leon, mitico guerreo de la saga FF, fuerte y noble blandiendo su espada revolver. ")
+        clase1 = int(input("    ¿Cual sera la clase de Leon? "))
 
-    clase = str(input("    ¿Cual sera la clase con la que defenderas Damasco? "))
+        if clase1 == 2:
+            vit1= 3000
+            mp1 = 400
+            atk1=110
+            def1=70
+        elif clase1 == 1:
+            vit1=4500
+            mp1=189
+            atk1=220
+            def1=120
+        elif clase1 == 2:
+            vit1=2400
+            mp1=80
+            atk1=400
+            def1=90
+
+
 
     #Creamos las magias negras
     fire = Spell("Fire", 10, 150, "black")
@@ -54,8 +74,8 @@ if firstdecision == "Adelante":
                     {"item": elixir, "quantity": 3}, {"item": hielixir, "quantity": 1}, {"item": grenade, "quantity": 8}]
     #Personajes
     player1 = Person("Zack:", 3200, 132, 400, 34, player_spells , player_items, "no")
-    player2 = Person("Leon:", 4500, 180, 400, 34, player_spells , player_items, "no")
-    player3 = Person("Sora:", 3000, 166, 400, 34, player_spells , player_items, "no")
+    player2 = Person("Leon:", vit1, mp1, atk1, def1, player_spells , player_items, "no")
+    player3 = Person("Sora:", 3100, 166, 400, 34, player_spells , player_items, "no")
 
     players = [player1, player2, player3]
 
@@ -74,10 +94,28 @@ if firstdecision == "Adelante":
 
 
 
+    prueba = int(input( " prueba 1 "))
+    if prueba == 1:
+        for player in players:
+            player.save_ally(allies)
 
+    countP = 0
+    with open('data.json') as file:
+        data=json.load(file)
 
-
-
+    for player in players:
+        for ally in data['aliados']:
+            if player.name == ally['name']:
+                countP +=1
+        if countP == 3:
+          print("Parece que hay una partida guardada.")
+          print("    1. Quiero reaundarla")
+          print("    2. Quiero empezar una de nuevo")
+          empezar= int(input("    ¿Cual es tu decision?"))
+          if empezar == 1:
+              for ally in data['aliados']:
+                  if player.name == ally['name']:
+                      player.hp = ally['HP']
 
     print(bcolors.FAIL + bcolors.BOLD + "                             AN ENEMY ATTACKS!!" + bcolors.ENDC)
 
@@ -100,6 +138,7 @@ if firstdecision == "Adelante":
             while turn:
 
                 player.choose_action()
+                #player.load_allies()
 
                 choice=input("    Chose a action: ")
                 index=int(choice) - 1

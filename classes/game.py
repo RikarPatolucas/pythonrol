@@ -1,4 +1,5 @@
 import random
+import json
 import pprint
 from .magic import Spell
 class bcolors:
@@ -16,6 +17,7 @@ class Person:
         self.hp=hp
         self.maxmp=mp
         self.mp=mp
+        self.atk = atk
         self.atkl=atk -10
         self.atkh=atk +10
         self.df=df
@@ -79,17 +81,20 @@ class Person:
     def choose_target(self, enemies):
         i=1
 
+
+
         print("\n" + bcolors.FAIL + bcolors.BOLD + "     TARGET:" + bcolors.ENDC)
         for enemy in enemies:
-            partial = enemy.maxhp / enemy.hp
-            if partial < 2.0:
-                print("       " + str(i) + "." + enemy.name + "actually HP: " + bcolors.WARNING +
-                      str(enemy.hp) +  "/" +str(enemy.maxhp) + bcolors.ENDC)
-            elif partial >=2.0:
-                print("       " + str(i) + "." + enemy.name + "actually HP: " + bcolors.FAIL +
-                      str(enemy.hp) + "/" + str(enemy.maxhp) + bcolors.ENDC)
+            if enemy.get_hp() !=  0:
+                partial = enemy.maxhp / enemy.hp
+                if partial < 2.0:
+                    print("       " + str(i) + "." + enemy.name + "actually HP: " + bcolors.WARNING +
+                          str(enemy.hp) +  "/" +str(enemy.maxhp) + bcolors.ENDC)
+                elif partial >2.0 and  partial >0:
+                    print("       " + str(i) + "." + enemy.name + "actually HP: " + bcolors.FAIL +
+                          str(enemy.hp) + "/" + str(enemy.maxhp) + bcolors.ENDC)
 
-            i +=1
+                i +=1
         print(("\n") + bcolors.FAIL +"       0. Return Menu" + bcolors.ENDC)
         choice = int (input("    Choose target:")) -1
         return  choice
@@ -199,3 +204,34 @@ class Person:
             current_hp + bcolors.OKGREEN + "|" + hp_bar + "|    " + bcolors.ENDC +
             current_mp + bcolors.OKBLUE + "|" + mp_bar + "|" + bcolors.ENDC)
 
+    def save_ally(self, allies):
+        data={}
+        data['aliados']=[]
+        for player in allies:
+            data['aliados'].append({
+                'name': player.name,
+                'HP': player.hp,
+                'MP': player.mp,
+                'Atck': player.atk,
+                'Df': player.df,
+                'Estado': player.turn
+
+            })
+
+            with open('data.json', 'w') as file:
+                json.dump(data, file, indent=4)
+
+
+
+
+    def load_allies(self):
+        print("o estamos aquisds")
+        with open('data.json') as file:
+            data=json.load(file)
+            print("estmos aqui")
+            for ally in data['aliados']:
+                print('First name:', ally['name'])
+                print('Last name:', ally['HP'])
+                print('Age:', ally['MP'])
+                print('Amount:', ally['Atck'])
+                print('')
