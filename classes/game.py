@@ -72,16 +72,25 @@ class Person:
         i=1
         print("\n"+ bcolors.OKGREEN + bcolors.BOLD + "    ITEMS" + bcolors.ENDC)
         for item in self.items:
-            print("    ", str(i) + ".", item["item"].name, ":",  item["item"].description, "(x" + str(item["quantity"]) + ")")
-            i += 1
+                print("    ", str(i) + ".", item["item"].name, ":",  item["item"].description, "(x" + str(item["quantity"]) + ")")
+                i += 1
+        print(("\n") + bcolors.FAIL +"     0. Return Menu" + bcolors.ENDC)
 
     def choose_target(self, enemies):
         i=1
 
         print("\n" + bcolors.FAIL + bcolors.BOLD + "     TARGET:" + bcolors.ENDC)
         for enemy in enemies:
-            print("        " + str(i) + "." + enemy.name )
+            partial = enemy.maxhp / enemy.hp
+            if partial < 2.0:
+                print("       " + str(i) + "." + enemy.name + "actually HP: " + bcolors.WARNING +
+                      str(enemy.hp) +  "/" +str(enemy.maxhp) + bcolors.ENDC)
+            elif partial >=2.0:
+                print("       " + str(i) + "." + enemy.name + "actually HP: " + bcolors.FAIL +
+                      str(enemy.hp) + "/" + str(enemy.maxhp) + bcolors.ENDC)
+
             i +=1
+        print(("\n") + bcolors.FAIL +"       0. Return Menu" + bcolors.ENDC)
         choice = int (input("    Choose target:")) -1
         return  choice
 
@@ -100,7 +109,7 @@ class Person:
             elif partial3 >=2.0:
                 print("        "  + str(i) + "." + ally.name + " actually HP: " + bcolors.FAIL + str(ally.hp) + "/" + str(ally.maxhp) +bcolors.ENDC)
                 i += 1
-
+        print(("\n") + bcolors.FAIL +"       0. Return Menu" + bcolors.ENDC)
         choice = int(input("    Choose target:")) - 1
         return choice
 
