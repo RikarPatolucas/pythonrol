@@ -49,14 +49,19 @@ class Person:
 
     def get_hp(self):
         return self.hp
+
     def get_maxhp(self):
         return self.maxhp
+
     def get_mp(self):
         return self.mp
+
     def get_max_mp(self):
         return self.maxmp
+
     def reduce_mp(self,cost):
         self.mp -= cost
+
     def choose_action(self):
         i=1
         print("\n" "    "+ bcolors.BOLD + self.name + bcolors.ENDC )
@@ -64,12 +69,14 @@ class Person:
         for item in self.actions:
             print("    ", str(i) + ":", item)
             i += 1
+
     def choose_magic(self):
         i = 1
         print("\n"+  bcolors.OKBLUE + bcolors.BOLD + "    Magic" + bcolors.ENDC)
         for spell in self.magic:
             print("    ",str(i) + ":", spell.name, "(cost:", str(spell.cost) , " Damage:", str(spell.dmg) + ")" )
             i += 1
+
     def choose_item(self):
         i=1
         print("\n"+ bcolors.OKGREEN + bcolors.BOLD + "    ITEMS" + bcolors.ENDC)
@@ -99,8 +106,6 @@ class Person:
         choice = int (input("    Choose target:")) -1
         return  choice
 
-
-
     def choose_ally(self, allies):
         i=1
         print("\n" + bcolors.OKGREEN + bcolors.BOLD + "     TARGET:" + bcolors.ENDC)
@@ -117,8 +122,6 @@ class Person:
         print(("\n") + bcolors.FAIL +"       0. Return Menu" + bcolors.ENDC)
         choice = int(input("    Choose target:")) - 1
         return choice
-
-
 
     def get_enemy_stats(self):
         global hp_bar
@@ -220,9 +223,6 @@ class Person:
 
             with open('data.json', 'w') as file:
                 json.dump(data, file, indent=4)
-
-
-
 
     def load_allies(self):
         print("o estamos aquisds")

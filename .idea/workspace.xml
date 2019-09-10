@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ae36c299-eae9-431f-902d-f96d16cd9be4" name="Default Changelist" comment="&quot;target de cura a aliados sin overhealing&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+>>>>>>> 6626b8c5644cb2b3d04e10236a1b35a34b9a68a4
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -151,16 +155,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="&quot;target de cura a aliados sin overhealing&quot;" />
     <option name="LAST_COMMIT_MESSAGE" value="&quot;target de cura a aliados sin overhealing&quot;" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>281</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
