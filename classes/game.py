@@ -154,6 +154,8 @@ class Person:
             print("    " + bcolors.BOLD + self.name + "             " + current_hp + bcolors.FAIL +
               "                        IS DEAD                                 " + bcolors.ENDC + "\n" )
 
+
+
     def get_stats(self):
         #Calcular las barras de vida
         hp_bar = ""
@@ -235,3 +237,193 @@ class Person:
                 print('Age:', ally['MP'])
                 print('Amount:', ally['Atck'])
                 print('')
+
+    def fight(self, players, enemies, allies, player_items):
+        running = True
+        while running:
+            print("                          ========================")
+            print("\n")
+            print("    NAME:               " + " HP                                     " + "MP             ")
+            # Cogemos las stats de los jugadores
+            for player in players:
+                player.get_stats()
+
+            print("\n")
+            # Cogemos las stats de los enemigos
+            for enemy in enemies:
+                enemy.get_enemy_stats()
+            # Vamos a ir a elegir las acciones por cada jugador
+            for player in players:
+                turn=True
+                while turn:
+                    i=0
+                    for enemy in enemies:
+                        i=+1
+                    if i == 0:
+                        turn=False
+                        running=False
+                        continue
+
+                    player.choose_action()
+                    # player.load_allies()
+
+                    choice=input("    Chose a action: ")
+                    index=int(choice) - 1
+
+                    if index != 1 and index != 0 and index != 2 and index != 3:
+                        print("    Please take a option again: ")
+                        continue
+
+                    # Si es igual a 0 atacamos
+                    if index == 0:
+                        dmg=player.generate_damage()
+                        enemy=player.choose_target(enemies)
+
+                        if enemy != -1:
+                            enemies[enemy].take_damge(dmg)
+                            print(bcolors.WARNING + "    You attacked " + "for", dmg,
+                                  "points of damage to " + enemies[enemy].name + bcolors.ENDC)
+                            turn=False
+                        if enemies[enemy].get_hp()== 0:
+                                 del enemies[enemy]
+                        elif enemy == -1:
+                            continue
+
+                    # Si es igual a 1 entramos en las Magias
+                    elif index == 1:
+                        player.choose_magic()
+                        magic_choice=int(input("    Choose Magic: ")) - 1
+                        # Para volver atras
+                        if magic_choice == -1:
+                            continue
+                        # Elegimos la magia y hacemos el daño
+                        spell=player.magic[magic_choice]
+                        magic_dmg=spell.generate_damage()
+
+                        current_mp=player.get_mp()
+                        print(bcolors.WARNING + "    The cost was", spell.cost,
+                              "and the  mp before attack was:",
+                              current_mp, bcolors.ENDC)
+                        if spell.cost > current_mp:
+                            print(bcolors.FAIL + " \n     You cant do this, no enough mana" + bcolors.ENDC)
+                            continue
+
+                        if spell.type == "white":
+
+                            ally=player.choose_ally(allies)
+
+                            curetotal=allies[ally].hp + magic_dmg
+                            if curetotal > allies[ally].maxhp:
+                                curepartial=allies[ally].maxhp - allies[ally].hp
+                                allies[ally].heal(curepartial)
+                                player.reduce_mp(spell.cost)
+                                print(bcolors.OKBLUE + "\n    " + spell.name + " heals", str(curepartial),
+                                      "points of life, but not do a overheal" + bcolors.ENDC)
+                                turn=False
+                                continue
+
+                            else:
+                                allies[ally].heal(magic_dmg)
+                                player.reduce_mp(spell.cost)
+                                print(bcolors.OKBLUE + "\n    " + spell.name + " heals", str(magic_dmg),
+                                      "points of life" + bcolors.ENDC)
+                                turn=False
+                                continue
+
+                        elif spell.type == "black":
+                            player.reduce_mp(spell.cost)
+                            enemy=player.choose_target(enemies)
+                            enemies[enemy].take_damge(magic_dmg)
+                            print(bcolors.OKBLUE + "\n    " + spell.name + " deals " + str(magic_dmg),
+                                  "points of damage to: " + enemies[enemy].name + bcolors.ENDC)
+                            turn=False
+                    # Si es igual a 2 elegimos los items
+                    elif index == 2:
+                        player.choose_item()
+                        item_choice=int(input("    Choose a item: ")) - 1
+                        if player.items[item_choice]["quantity"] == 0:
+                            print(bcolors.FAIL + "\n" + "    None left... " + bcolors.ENDC)
+                            continue
+                        # Por si queremos volver atras
+                        if item_choice == -1:
+                            continue
+
+                        item=player_items[item_choice]["item"]
+                        player.items[item_choice]["quantity"]-=1
+                        # Si son de tipo curacion
+                        if item.type == "potion":
+
+                            ally=player.choose_ally(allies)
+
+                            curetotal2=allies[ally].hp + item.prop
+
+                            if curetotal2 > allies[ally].maxhp:
+                                curepartial2=allies[ally].maxhp - allies[ally].hp
+                                allies[ally].heal(curepartial2)
+                                print(
+                                    bcolors.OKGREEN + "\n    " + item.name + " heals for " + str(curepartial2),
+                                    "HP" + bcolors.ENDC)
+                                turn=False
+                            else:
+                                allies[ally].heal(item.prop)
+                                print(bcolors.OKGREEN + "\n    " + item.name + " heals for " + str(item.prop),
+                                      "HP" + bcolors.ENDC)
+                                print(bcolors.OKGREEN + "    HP " + allies[ally].name + str(
+                                    allies[ally].hp) + bcolors.ENDC)
+                                turn=False
+
+                        # Si son de tipo elixir
+                        if item.type == "elixir":
+                            player.hp=player.maxhp
+                            player.mp=player.maxmp
+                            print(
+                                    bcolors.WARNING + "\n" + item.name + " fully restores " + bcolors.OKGREEN + "Max HP " + bcolors.WARNING + "and " + bcolors.OKBLUE + "Max MP" + bcolors.ENDC)
+                            turn=False
+                        # Si son de tipo ataque
+                        if item.type == "attack":
+                            enemy=player.choose_target(enemies)
+                            if enemy == -1:
+                                continue
+                            enemies[enemy].take_damge(item.prop)
+                            print(bcolors.WARNING + "\n" + item.name + " deals: " + bcolors.FAIL + str(
+                                item.prop) + " points of damage to:_" + enemies[enemy].name + bcolors.ENDC)
+                            turn=False
+
+                    elif index == 3:
+                        decision=int(input("    Are you sure? Pulse 0 for Return or 1 for continue: "))
+                        if decision == 1:
+                            turn=False
+                            continue
+                        else:
+                            continue
+                    i=0
+                    for enemy in enemies:
+                        i=+1
+                    if i == 0:
+                        turn=False
+                        running= False
+                        continue
+
+            # Aqui los jugadores ya han elegido y toca a los enemigos
+            enemy_choice=1
+            if i !=0:
+                target=random.randrange(0, 3)
+                enemy_dmg=enemies[0].generate_damage()
+                players[target].take_damge(enemy_dmg)
+                print("\n")
+                print(bcolors.FAIL + bcolors.BOLD + "    Enemy attacks for: " + str(
+                    enemy_dmg) + " damage" + " to " + str(players[target].name) + bcolors.ENDC + "\n")
+                # print(bcolors.OKBLUE + "\n    " + spell.name + " deals " + str(magic_dmg), "points of damage to: " + enemies[enemy].name + bcolors.ENDC)
+
+            print("-------------------------------")
+
+            # Si los enemigos han llegado todos a cero
+            if i== 0:
+                print(bcolors.OKGREEN + bcolors.BOLD + "You win" + bcolors.ENDC)
+                running=False
+            elif player.get_hp() == 0:
+                print(bcolors.FAIL + " You loose" + bcolors.ENDC)
+                running=False
+
+        return running
+
