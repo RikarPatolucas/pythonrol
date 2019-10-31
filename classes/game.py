@@ -2,6 +2,7 @@ import random
 import json
 import pprint
 from .magic import Spell
+espacio = "\n"
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -241,7 +242,8 @@ class Person:
     def fight(self, players, enemies, allies, player_items):
         running = True
         while running:
-            print("                          ========================")
+            print(bcolors.BOLD + bcolors.WARNING + "                               TOTAL STATS")
+            print("                          ========================" + bcolors.ENDC)
             print("\n")
             print("    NAME:               " + " HP                                     " + "MP             ")
             # Cogemos las stats de los jugadores
@@ -263,17 +265,20 @@ class Person:
                         turn=False
                         running=False
                         continue
-
+                    input("    <Continue>")
+                    print(espacio*40)
                     player.choose_action()
                     # player.load_allies()
 
                     choice=input("    Chose a action: ")
-                    index=int(choice) - 1
-
-                    if index != 1 and index != 0 and index != 2 and index != 3:
-                        print("    Please take a option again: ")
+                    if (choice.isdigit()):
+                        index = int(choice) - 1
+                        if index != 1 and index != 0 and index != 2 and index != 3:
+                            print("    Please take a option again: ")
+                            continue
+                    else:
+                        print( " Please pulse the number's key")
                         continue
-
                     # Si es igual a 0 atacamos
                     if index == 0:
                         dmg=player.generate_damage()
@@ -397,6 +402,9 @@ class Person:
                         else:
                             continue
                     i=0
+                    print(espacio *3)
+                    for enemy in enemies:
+                        enemy.get_enemy_stats()
                     for enemy in enemies:
                         i=+1
                     if i == 0:
@@ -407,15 +415,28 @@ class Person:
             # Aqui los jugadores ya han elegido y toca a los enemigos
             enemy_choice=1
             if i !=0:
-                target=random.randrange(0, 3)
-                enemy_dmg=enemies[0].generate_damage()
-                players[target].take_damge(enemy_dmg)
-                print("\n")
-                print(bcolors.FAIL + bcolors.BOLD + "    Enemy attacks for: " + str(
-                    enemy_dmg) + " damage" + " to " + str(players[target].name) + bcolors.ENDC + "\n")
+                x=i
+                print(bcolors.WARNING + "    Turno del enemigo:" + bcolors.ENDC)
+                input("    <Press Enter>")
+                print(espacio*20)
+                for enemy in enemies:
+                    print(bcolors.FAIL + bcolors.BOLD + "     " + str(enemies[x].name) + " ATTACKS!!!!" +bcolors.ENDC)
+                    print(espacio*2)
+                    alive = True
+                    while alive:
+                        target=random.randrange(0, 3)
+                        if players[target].get_hp()>= 0:
+                            enemy_dmg=enemies[x].generate_damage()
+                            alive = False
+                    players[target].take_damge(enemy_dmg)
+                    print("     " +bcolors.WARNING + bcolors.BOLD + str(enemies[x].name) + " attacks for: " + bcolors.FAIL + str(
+                        enemy_dmg) + bcolors.WARNING + " damage" + " to " + bcolors.OKGREEN + str(players[target].name) + bcolors.ENDC + "\n")
+                    print(espacio *2)
+                    print(players[target].get_stats())
+                    input("    <Continue>")
+                    print(espacio *40)
+                    x -=1
                 # print(bcolors.OKBLUE + "\n    " + spell.name + " deals " + str(magic_dmg), "points of damage to: " + enemies[enemy].name + bcolors.ENDC)
-
-            print("-------------------------------")
 
             # Si los enemigos han llegado todos a cero
             if i== 0:

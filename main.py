@@ -23,9 +23,9 @@ print (100 * espacio)
 
 print(  bcolors.WARNING + "    Bienvenido al juego de Rol de Rikarpatolucas, a partir de aqui, puedes formarte como heroe, eso si... no hay vueltas atras!" +  ("\n") +
         "    Solo queremos a los guerreros mas fuertes y valientes de la region de Damasco." +
-       ("\n") + ("\n")+ "    Si crees que es tu caso, pulsa" + bcolors.OKGREEN + bcolors.BOLD +" 0 (Adelante)" + bcolors.ENDC+ bcolors.WARNING + ", te estamos esperando. Damasco necesita de heroes fuertes"
+       ("\n") + ("\n")+ "    Si crees que es tu caso, pulsa" + bcolors.OKGREEN + bcolors.BOLD +" 1 (Adelante)" + bcolors.ENDC+ bcolors.WARNING + ", te estamos esperando. Damasco necesita de heroes fuertes"
         + ("\n") + "    En caso contrario pulsa" +
-        bcolors.FAIL + bcolors.BOLD + " 1 (Me Retiro)" +bcolors.ENDC + bcolors.WARNING +  ", una retirada a tiempo puede ser una victoria" + bcolors.ENDC + ("\n"))
+        bcolors.FAIL + bcolors.BOLD + " 0 (Me Retiro)" +bcolors.ENDC + bcolors.WARNING +  ", una retirada a tiempo puede ser una victoria" + bcolors.ENDC + ("\n"))
 #print("\n")
 print (5 * espacio)
 while decision:
@@ -40,7 +40,7 @@ decision = True
 print (20 * espacio)
 per=0
 clase = True
-if val == 0:
+if val == 1:
     print(bcolors.BOLD + "  Muy bien Guerrero!! ")
 
     print("  Lo primero es explicarte y formarte como guerrero " )
@@ -65,14 +65,13 @@ if val == 0:
 
                 while decision:
                     print(
-                            bcolors.BOLD + "    1." + bcolors.OKGREEN + "PALADIN" + bcolors.ENDC)
+                        bcolors.BOLD + "    1." + bcolors.OKGREEN + "PALADIN: " + bcolors.ENDC + bcolors.BOLD + "Guerrero especializado en las peleas cuerpo a cuerpo, gran cantidad de vida y defensa, tiene una cantidad de mana media ")
                     print(
-                            bcolors.BOLD + "    2." + bcolors.OKBLUE + "MAGO" + bcolors.ENDC)
+                        bcolors.BOLD + "    2." + bcolors.OKBLUE + "MAGO: " + bcolors.ENDC + bcolors.BOLD + "Guerrero especializado en ataques magicos y potencia de ataques magicos, la cantidad de puntos magicos y mana es muy altos")
                     print(
-                            bcolors.BOLD + "    3." + bcolors.FAIL + "ASESINO")
+                        bcolors.BOLD + "    3." + bcolors.FAIL + "ASESINO: " + bcolors.ENDC + bcolors.BOLD + "Guerrero especializado en hacer daño de forma elevada en sus ataques fisicos, su cantidad de vida y mana es menor")
                     print(5 * espacio)
                     clase1  =(input(bcolors.OKGREEN + bcolors.BOLD + "    ¿Cual sera la clase de Zack? " + bcolors.ENDC))
-                    print(5 * espacio)
                     if (clase1.isdigit()):
                         clase1=int(clase1)
 
@@ -92,7 +91,7 @@ if val == 0:
                                     continue
                                 elif enter != 0:
                                     decision = False
-                                    per += 1
+                                    per = +1
                             else:
                                 decision = False
                                 per =+1
@@ -102,7 +101,6 @@ if val == 0:
                             mp1=189
                             atk1=220
                             def1=120
-                            per+=1
                             print ("\n " + "    Muy bien Zack sera" + bcolors.OKBLUE + " Mago" + bcolors.ENDC + "\n")
                             enter=(input("   <Presiona Enter para continuar>" + bcolors.FAIL+ "\n" + "   <Presiona 0 para elegir otra clase> " + bcolors.ENDC))
                             if (enter.isdigit() ):
@@ -117,13 +115,12 @@ if val == 0:
                                     per += 1
                             else:
                                 decision = False
-                                per =+1
+                                per +=1
                         elif clase1 == 3:
                             vit1=2400
                             mp1=80
                             atk1=400
                             def1=90
-                            per+=1
                             print ("\n" + "    Muy bien Zack sera" + bcolors.FAIL + " Asesino" + bcolors.ENDC + "\n")
                             enter=(input("   <Presiona Enter para continuar>" + bcolors.FAIL+ "\n" + "   <Presiona 0 para elegir otra clase> " + bcolors.ENDC))
                             if (enter.isdigit() ):
@@ -138,7 +135,7 @@ if val == 0:
                                     per += 1
                             else:
                                 decision = False
-                                per =+1
+                                per +=1
                         else:
                             print(bcolors.FAIL + "    Elige una opcion correcta: 1, 2, 3" + bcolors.ENDC)
                             print (3 * espacio)
@@ -148,7 +145,8 @@ if val == 0:
 
          #Creamos a Leon
         if per ==1:
-                decision=True
+            decision=True
+            while decision:
                 print(20 * espacio)
                 print("     En segundo lugar tenemos a" +bcolors.WARNING +  " Leon " +  bcolors.ENDC +  ",mitico guerreo de la saga FF, fuerte y noble blandiendo su espada revolver. ")
                 print("     Guerrero experimentado en multiples batallas fuerte en multiples ambitos de ellas y muy versatil " + "\n")
@@ -161,13 +159,13 @@ if val == 0:
                         bcolors.BOLD + "    3." + bcolors.FAIL + "ASESINO")
                 print(5 * espacio)
 
-                while decision:
-                    clase1=(input(bcolors.OKGREEN + bcolors.BOLD + "    ¿Cual sera la clase de Leon? " + bcolors.ENDC))
-                    if (clase1.isdigit()):
-                        clase1=int(clase1)
-                        decision=False
-                    else:
-                        print (bcolors.FAIL + "    Introduce uno de los valores de las opciones" + "\n" + bcolors.ENDC)
+
+                clase1=(input(bcolors.OKGREEN + bcolors.BOLD + "    ¿Cual sera la clase de Leon? " + bcolors.ENDC))
+                if (clase1.isdigit()):
+                    clase1=int(clase1)
+                    decision=False
+                else:
+                    print (bcolors.FAIL + "    Introduce uno de los valores de las opciones" + "\n" + bcolors.ENDC)
                     print(5 * espacio)
 
                 if clase1 == 1:
@@ -175,35 +173,74 @@ if val == 0:
                     mp2=400
                     atk2=110
                     def2=70
-                    per+=1
                     print ("\n" + "    Muy bien Leon sera" + bcolors.OKGREEN + " Paladin" + bcolors.ENDC + "\n")
-                    enter=str(input("   <Presiona Enter para continuar>"))
-                    decision = True
+                    enter = (input(
+                        "   <Presiona Enter para continuar>" + bcolors.FAIL + "\n" + "   <Presiona 0 para elegir otra clase> " + bcolors.ENDC))
+                    if (enter.isdigit()):
+                        enter = int(enter)
+                        if enter == 0:
+                            print (20 * espacio)
+                            print ("\n" + "    Okey, volvamos a intentarlo. estas son las clases: ")
+                            print (3 * espacio)
+                            continue
+                        elif enter != 0:
+                            decision = False
+                            per += 1
+                    else:
+                        decision = False
+                        per +=1
+
                 elif clase1 == 2:
-                    vit2=4500
-                    mp2=189
-                    atk2=220
-                    def2=120
-                    per+=1
+                    vit2 = 4500
+                    mp2 = 189
+                    atk2 = 220
+                    def2 = 120
                     print ("\n " + "    Muy bien Leon sera" + bcolors.OKBLUE + " Mago" + bcolors.ENDC + "\n")
-                    enter=str(input("   <Presiona Enter para continuar>"))
-                    decision=True
+                    enter = (input(
+                        "   <Presiona Enter para continuar>" + bcolors.FAIL + "\n" + "   <Presiona 0 para elegir otra clase> " + bcolors.ENDC))
+                    if (enter.isdigit()):
+                        enter = int(enter)
+                        if enter == 0:
+                            print (20 * espacio)
+                            print ("\n" + "    Okey, volvamos a intentarlo. estas son las clases: ")
+                            print (3 * espacio)
+                            continue
+                        elif enter != 0:
+                            decision = False
+                            per += 1
+                    else:
+                        decision = False
+                        per +=1
+
                 elif clase1 == 3:
                     vit2=2400
                     mp2=80
                     atk2=400
                     def2=90
-                    per+=1
                     print ("\n" + bcolors.FAIL + "    Muy bien Sora sera Asesino" + bcolors.ENDC + "\n")
-                    enter=str(input("   <Presiona Enter para continuar>"))
-                    decision=True
+                    enter = (input(
+                        "   <Presiona Enter para continuar>" + bcolors.FAIL + "\n" + "   <Presiona 0 para elegir otra clase> " + bcolors.ENDC))
+                    if (enter.isdigit()):
+                        enter = int(enter)
+                        if enter == 0:
+                            print (20 * espacio)
+                            print ("\n" + "    Okey, volvamos a intentarlo. estas son las clases: ")
+                            print (3 * espacio)
+                            continue
+                        elif enter != 0:
+                            decision = False
+                    else:
+                        decision = False
+                        per +=1
                 else:
                     print(bcolors.FAIL + " Elige una opcion correcta: 1, 2, 3" + bcolors.ENDC)
                     continue
 
         #Creamos a Sora
         if per == 2:
-            print("     En tercer lugar tenemos a Sora, guerreo armado con su llave espada, protagonista de multiple aventuras en KH ")
+            decision = True
+            print(20 * espacio)
+            print("     En tercer lugar tenemos a " +bcolors.WARNING + "Sora" + bcolors.ENDC +  ", guerreo armado con su llave espada, protagonista de multiple aventuras en KH ")
             print("     Gracias a las aventuras Sora ha podido aprender de multiples maestros, puede ofrecer una gran ayuda con sus conocimientos " + "\n")
             print(
                     bcolors.BOLD + "    1." + bcolors.OKGREEN + "PALADIN" + bcolors.ENDC)
@@ -220,36 +257,71 @@ if val == 0:
                     decision=False
                 else:
                     print (bcolors.FAIL + "    Introduce uno de los valores de las opciones" + "\n" + bcolors.ENDC)
-
-            print(5 * espacio)
+                    print(5 * espacio)
 
             if clase1 == 1:
                 vit3=3000
                 mp3=400
                 atk3=110
                 def3=70
-                per+=1
                 print ("\n" + "    Muy bien Sora sera" + bcolors.OKGREEN + " Paladin" + bcolors.ENDC + "\n")
-                enter=str(input("   <Presiona Enter para continuar>"))
-                decision = True
+                enter = (input(
+                    "   <Presiona Enter para continuar>" + bcolors.FAIL + "\n" + "   <Presiona 0 para elegir otra clase> " + bcolors.ENDC))
+                if (enter.isdigit()):
+                    enter = int(enter)
+                    if enter == 0:
+                        print (20 * espacio)
+                        print ("\n" + "    Okey, volvamos a intentarlo. estas son las clases: ")
+                        print (3 * espacio)
+                        continue
+                    elif enter != 0:
+                        decision = False
+                        per += 1
+                else:
+                    decision = False
+                    per +=1
             elif clase1 == 2:
                 vit3=4500
                 mp3=189
                 atk3=220
                 def3=120
-                per+=1
                 print ("\n " + "    Muy bien Sora sera" + bcolors.OKBLUE + " Mago" + bcolors.ENDC + "\n")
-                enter=str(input("   <Presiona Enter para continuar>"))
-                decision = True
+                enter = (input(
+                    "   <Presiona Enter para continuar>" + bcolors.FAIL + "\n" + "   <Presiona 0 para elegir otra clase> " + bcolors.ENDC))
+                if (enter.isdigit()):
+                    enter = int(enter)
+                    if enter == 0:
+                        print (20 * espacio)
+                        print ("\n" + "    Okey, volvamos a intentarlo. estas son las clases: ")
+                        print (3 * espacio)
+                        continue
+                    elif enter != 0:
+                        decision = False
+                        per +=1
+                else:
+                    decision = False
+                    per  +=1
             elif clase1 == 3:
                 vit3=2400
                 mp3=80
                 atk3=400
                 def3=90
-                per+=1
                 print ("\n" + bcolors.FAIL + "    Muy bien Sora sera Asesino" + bcolors.ENDC + "\n")
-                enter=str(input("   <Presiona Enter para continuar>"))
-                decision = True
+                enter = (input(
+                    "   <Presiona Enter para continuar>" + bcolors.FAIL + "\n" + "   <Presiona 0 para elegir otra clase> " + bcolors.ENDC))
+                if (enter.isdigit()):
+                    enter = int(enter)
+                    if enter == 0:
+                        print (20 * espacio)
+                        print ("\n" + "    Okey, volvamos a intentarlo. estas son las clases: ")
+                        print (3 * espacio)
+                        continue
+                    elif enter != 0:
+                        decision = False
+                        per +=1
+                else:
+                    decision = False
+                    per +=1
             else:
                 print(bcolors.FAIL + " Elige una opcion correcta: 1, 2, 3" + bcolors.ENDC)
                 continue
@@ -258,11 +330,13 @@ if val == 0:
         if per == 3:
             clase = False
 
+    print (60* espacio)
     print(bcolors.FAIL + "----------------------------------------------------------------------------------------------------------------------------------------" + bcolors.ENDC)
     print("    Bien hecho Guerrro, ya tenemos a nuestro escuadron formado para defender Damasco")
     print("    Te veo cara de novato, quieres que te enseñe a pelear? " + bcolors.OKGREEN + "\n" + "    1. No me vendria mal... " + "\n"
                      + bcolors.ENDC + bcolors.FAIL + "    2. Para nada, soy un guerrero experto" + bcolors.ENDC)
-    noob = int(input("    Que decides? ") )
+    print(8*espacio)
+    noob = int(input("    ¿Que decides? ") )
     print("\n")
 
     #Creamos las magias negras
@@ -299,18 +373,20 @@ if val == 0:
 
     if noob == 1:
         while noob == 1:
-            enemyNoob1 = Person("No Heart ", 600, 400, 560, 25, [], [], "no")
+            enemyNoob1 = Person("No Heart ", 600, 400, 200, 25, [], [], "no")
             enemyNoob2 = Person("Leader   ", 1000, 400, 560, 25, [], [], "no")
             enemies = [enemyNoob1, enemyNoob2]
             print("    No hay problema, hasta los guerreros mas legendarios tuvieron que aprender!")
-            print("    Mira! Un sincorazon, podemos entrenar con el si te parece" + "\n")
+            print("    Mira!" + bcolors.FAIL + " Un sincorazon" + bcolors.ENDC + ", podemos entrenar con el si te parece" + "\n")
             enter = str(input("    <Presiona Enter>"))
+            print(espacio*60)
             print("\n" + "    Lo primero es lo primero vamos a ver al enemigo y su fuerza:" + "\n")
             for enemy in enemies:
                 enemy.get_enemy_stats()
             print("    Como puedes ver se marcan en rojo sus puntos de vida, los cuales tienen que bajar a 0 para derrotarlos")
             print("    Casi todos los enemigos se componen de un Leader y algun subdito")
             enter = str(input("\n" +"    ...."))
+            print(espacio * 40)
             print("\n" +"    Vamos a ver a nuestros heroes:" + "\n")
             print("    NAME:               " + " HP                                     " + "MP             ")
             for player in players:
@@ -320,6 +396,7 @@ if val == 0:
             print(bcolors.OKBLUE + "    La segunda son los puntos de magia" + bcolors.ENDC)
             print(bcolors.BOLD + "    Estos atributos pueden cambiar dependiendo de la clase que se escoja de cada jugador" + bcolors.ENDC)
             enter = str(input("\n" + "    <Presiona Enter>"))
+            print((espacio * 60))
             print("\n" +"    Bien, ya tenemos nuestro plantel de batalla, ahora es momento de " + bcolors.FAIL + bcolors.BOLD + "LUCHAR" + bcolors.ENDC)
             print(bcolors.BOLD + bcolors.WARNING+ "    Sora! Muestranos que podemos hacer" + bcolors.ENDC)
             player.choose_action()
@@ -327,21 +404,21 @@ if val == 0:
             print(bcolors.FAIL + bcolors.BOLD + "    La primera opcion (1) es Atacar" + bcolors.ENDC)
             print("      Esta opcion sera para realizar un ataque fisico a un target enemigo")
             print("      Los ataques fisicos depender del ataque de nuestro heroe y la defensa del enemigo")
-            enter = str(input("\n" + "    <Presiona Enter>"))
+            enter = str(input("\n" + "    ...."))
             print("\n" + bcolors.OKBLUE + bcolors.BOLD + "    La segunda opcion (2) es Magia" + bcolors.ENDC)
             print("      Esta opcion sera para realizar uno de los distintos ataques magicos")
             print("      Dentro de los hechizos hay de dos tipos:" + bcolors.OKGREEN + "De sanacion " + bcolors.ENDC + "y de " + bcolors.BOLD
-                  +bcolors.FAIL + "De daño")
-            enter=str(input("\n" + "    <Presiona Enter>"))
+                  +bcolors.FAIL + "De daño" +bcolors.ENDC)
+            enter=str(input("\n" + "    ...."))
             print("\n" + bcolors.WARNING + bcolors.BOLD + "    La tercera opcion (3) son  Items" + bcolors.ENDC)
             print("      Consumibles que ofrecen distintos beneficios")
-            print("      Al igual que  los hechizos hay de dos tipos:" + bcolors.OKGREEN + " De sanacion"
-                  + bcolors.FAIL + " ,De daño" + bcolors.ENDC )
+            print("      Al igual que  los hechizos hay de dos tipos:" + bcolors.OKGREEN + " De sanacion" +bcolors.ENDC + " y"
+                  + bcolors.FAIL + " De daño" + bcolors.ENDC )
             print("      Pero cuidado, una vez los acabes no podras utilizar mas")
-            enter=str(input("\n" + "    <Presiona Enter>"))
-            print ("\n\n\n\n\n\n\n")
-            print("\n" + bcolors.BOLD + "    Te sientes preparado para enfrentarte a estos enemigos?" + bcolors.OKGREEN + " Pues pulsa 0 y empieza a lucha!")
-            print( "\n" + bcolors.BOLD + "    No te ha quedado claro y quieres que lo repita? Sin problema" +bcolors.FAIL +  "pulsa 1 y empezaremos de nuevo" + bcolors.ENDC)
+            enter=str(input("\n" + "    ...."))
+            print (espacio *60)
+            print("\n" + bcolors.BOLD + "    Te sientes preparado para enfrentarte a estos enemigos?" + bcolors.OKGREEN + " Pues pulsa 0 y empieza a lucha!" +bcolors.ENDC)
+            print( "\n" + bcolors.BOLD + "    No te ha quedado claro y quieres que lo repita? Sin problema " +bcolors.FAIL +  "pulsa 1 y empezaremos de nuevo" + bcolors.ENDC)
             tutorial = int(input("    Toma una decision: "))
 
             if tutorial == 0:
