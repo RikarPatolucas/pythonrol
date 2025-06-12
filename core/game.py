@@ -24,7 +24,7 @@ class Person:
         self.df=df
         self.magic= magic
         self.items = items
-        self.actions = ["Attack", "Magic", "Items", "Exit (Pass)"]
+        self.actions = ["Atacar", "Magia", "Objetos", "Pasar Turno"]
         self.name = name
         self.turn = turn
 
@@ -66,25 +66,25 @@ class Person:
     def choose_action(self):
         i=1
         print("\n" "    "+ bcolors.BOLD + self.name + bcolors.ENDC )
-        print(bcolors.OKBLUE + bcolors.BOLD + "    Actions" + bcolors.ENDC)
+        print(bcolors.OKBLUE + bcolors.BOLD + "    Acciones" + bcolors.ENDC)
         for item in self.actions:
             print("    ", str(i) + ":", item)
             i += 1
 
     def choose_magic(self):
         i = 1
-        print("\n"+  bcolors.OKBLUE + bcolors.BOLD + "    Magic" + bcolors.ENDC)
+        print("\n"+  bcolors.OKBLUE + bcolors.BOLD + "    Magia" + bcolors.ENDC)
         for spell in self.magic:
-            print("    ",str(i) + ":", spell.name, "(cost:", str(spell.cost) , " Damage:", str(spell.dmg) + ")" )
+            print("    ",str(i) + ":", spell.name, "(Coste MP", str(spell.cost) , " Daño", str(spell.dmg) + ")" )
             i += 1
 
     def choose_item(self):
         i=1
-        print("\n"+ bcolors.OKGREEN + bcolors.BOLD + "    ITEMS" + bcolors.ENDC)
+        print("\n"+ bcolors.OKGREEN + bcolors.BOLD + "    Objetos" + bcolors.ENDC)
         for item in self.items:
                 print("    ", str(i) + ".", item["item"].name, ":",  item["item"].description, "(x" + str(item["quantity"]) + ")")
                 i += 1
-        print(("\n") + bcolors.FAIL +"     0. Return Menu" + bcolors.ENDC)
+        print(("\n") + bcolors.WARNING +"     0. Volver" + bcolors.ENDC)
 
     def choose_target(self, enemies):
         i=1
