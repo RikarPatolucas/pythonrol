@@ -1,5 +1,11 @@
-*
-!*/
-!.gitignore
-!main.py
-!classes
+# Ignorar archivos generados automáticamente
+__pycache__/
+*.pyc
+
+# Ignorar configuraciones del editor
+.idea/
+.vscode/
+
+# Otros opcionales
+*.log
+.env
