@@ -1,11 +1,17 @@
-# Ignorar archivos generados automáticamente
+# Archivos y carpetas de Python
 __pycache__/
 *.pyc
 
-# Ignorar configuraciones del editor
+# Configuración de editores
 .idea/
 .vscode/
 
-# Otros opcionales
+# Entornos virtuales (si usas uno)
+venv/
+
+# Otros (opcionales)
 *.log
 .env
+
+# Archivos de caché
+*.cache   
