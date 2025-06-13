@@ -27,6 +27,20 @@ class Person:
         self.actions = ["Atacar", "Magia", "Objetos", "Pasar Turno"]
         self.name = name
         self.turn = turn
+        self.estados =[]
+    
+    def get_estados_abreviados(self):
+        etiquetas = []
+        for e in self.estados:
+            if e["nombre"] == "veneno":
+                etiquetas.append("V")
+            elif e["nombre"] == "aturdido":
+                etiquetas.append("A")
+        if etiquetas:
+            return f"({'/'.join(etiquetas)})".ljust(6)
+        else:
+            return " " * 6
+
 
     def generate_damage(self):
         return random.randrange(self.atkl,self.atkh)
@@ -62,10 +76,42 @@ class Person:
 
     def reduce_mp(self,cost):
         self.mp -= cost
+    
+    def add_estado(self, estado):
+        self.estados.append(estado)
+
+    def procesar_estados(self):
+        nuevos_estados = []
+        skip_turn = False
+        for estado in self.estados:
+            nombre = estado["nombre"]
+            duracion = estado["duracion"]
+
+            if nombre == "veneno":
+                self.hp = max(0, self.hp - estado["potencia"])
+                print(f"{self.name.strip()} sufre {estado['potencia']} de daño por veneno. ({duracion} turnos restantes)")
+
+            elif nombre == "aturdido":
+                print(f"{self.name.strip()} está aturdido ({duracion} turnos restantes)...")
+                # Probabilidad de fallar acción
+                if random.random() > estado.get("efectividad", 0.2):
+                    skip_turn = True
+                    print(f"{self.name.strip()} no puede actuar este turno.")
+                else:
+                    print(f"{self.name.strip()} resiste el aturdimiento y puede actuar.")
+
+            estado["duracion"] -= 1
+            if estado["duracion"] > 0:
+                nuevos_estados.append(estado)
+            else:
+                print(f"{self.name.strip()} se ha librado del estado: {nombre}")
+        self.estados = nuevos_estados
+        return skip_turn
+
 
     def choose_action(self):
         i=1
-        print("\n" "    "+ bcolors.BOLD + self.name + bcolors.ENDC )
+       # print("\n" "    "+ bcolors.BOLD + self.name + bcolors.ENDC )
         print(bcolors.OKBLUE + bcolors.BOLD + "    Acciones" + bcolors.ENDC)
         for item in self.actions:
             print("    ", str(i) + ":", item)

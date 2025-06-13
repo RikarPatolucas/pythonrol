@@ -27,29 +27,30 @@ def color_hp(valor, maximo):
 
 def mostrar_estado(players, enemies):
     os.system('cls' if os.name == 'nt' else 'clear')
-    print("                          ========================")
-    print("                            ESTADO DE LOS JUGADORES")
-    print("                          ========================\n")
+    print("                          ===========================")
+    print(bcolors.OKGREEN + bcolors.BOLD + "                            ESTADO DE LOS JUGADORES" + bcolors.ENDC)
+    print("                          ===========================\\n")
     for player in players:
+        indicadores = player.get_estados_abreviados()
         hp_color = color_hp(player.hp, player.maxhp)
         hp_bar = barra_estado(player.hp, player.maxhp)
         mp_bar = barra_estado(player.mp, player.maxmp, 20, color=bcolors.OKBLUE)
-        
-        print(f"    {player.name.strip():<10} " + bcolors.OKGREEN + bcolors.BOLD + "HP" + bcolors.ENDC + f" {hp_bar} " + hp_color + f"{player.hp:>4}/{player.maxhp:<4}" + bcolors.ENDC)
+        print(f"    {player.name.strip():<10} {indicadores}" + bcolors.OKGREEN + bcolors.BOLD + "HP" + bcolors.ENDC + f" {hp_bar} " + hp_color + f"{player.hp:>4}/{player.maxhp:<4}" + bcolors.ENDC)
         print(f"               " + bcolors.OKBLUE + bcolors.BOLD + "MP" + bcolors.ENDC + f" {mp_bar} " + bcolors.OKBLUE + f"{player.mp:>4}/{player.maxmp:<4}" + bcolors.ENDC)
-
         print("")
 
-    print("\n                          =========================")
-    print("                            ESTADO DE LOS ENEMIGOS")
-    print("                          =========================\n")
+    print("\\n                          =========================")
+    print(bcolors.OKGREEN + bcolors.WARNING + "                            ESTADO DE LOS ENEMIGOS" + bcolors.ENDC)
+    print("                          =========================\\n")
     for enemy in enemies:
+        indicadores = enemy.get_estados_abreviados()
         if enemy.get_hp() == 0:
-            print(f"    {enemy.name.strip():<10} HP: " + bcolors.FAIL + bcolors.BOLD + "KO" + bcolors.ENDC)
+            print(f"    {enemy.name.strip():<9} {indicadores}" + bcolors.FAIL + bcolors.BOLD + " HP| "  + "              KO" + bcolors.ENDC)
         else:
             bar = barra_estado(enemy.hp, enemy.maxhp, color=bcolors.FAIL)
-            print(f"    {enemy.name.strip():<10}" +bcolors.FAIL +bcolors.BOLD + "HP" + bcolors.ENDC+ f"{bar} {enemy.hp:>4}/{enemy.maxhp:<4}")
+            print(f"    {enemy.name.strip():<10} {indicadores}" + bcolors.FAIL + bcolors.BOLD + "HP" + bcolors.ENDC + f"{bar} {enemy.hp:>4}/{enemy.maxhp:<4}")
     print()
+
 def pedir_accion(player):
     while True:
         player.choose_action()
@@ -85,9 +86,15 @@ def iniciar_combate(players, player_spells, player_items):
             if player.get_hp() == 0:
                 continue
 
+            saltar_turno = player.procesar_estados()
+            if saltar_turno:
+                print(f"{player.name.strip()} pierde el turno.")
+                time.sleep(1.5)
+                continue
+
             while True:
                 mostrar_estado(players, enemies)
-                print(bcolors.BOLD + f"{player.name.strip()}:" + bcolors.ENDC)
+                print(bcolors.BOLD + f"{player.name.strip()}" + bcolors.ENDC)
                 index = pedir_accion(player)
                 if index is None:
                     continue
@@ -130,6 +137,9 @@ def iniciar_combate(players, player_spells, player_items):
                         healed = min(magic_dmg, allies[ally_index].maxhp - allies[ally_index].hp)
                         allies[ally_index].heal(healed)
                         print(bcolors.OKBLUE + f"    {spell.name} cura {healed} HP a {allies[ally_index].name.strip()}" + bcolors.ENDC)
+                        if spell.efecto:
+                            allies[ally_index].add_estado(spell.efecto.copy())
+                            print(f"{allies[ally_index].name.strip()} sufre el estado: {spell.efecto['nombre']}.")
 
                     elif spell.type == "black":
                         for i, enemy in enumerate(enemies):
@@ -141,6 +151,9 @@ def iniciar_combate(players, player_spells, player_items):
                             continue
                         enemies[enemy_index].take_damge(magic_dmg)
                         print(bcolors.OKBLUE + f"    {spell.name} inflige {magic_dmg} de daño a {enemies[enemy_index].name.strip()}" + bcolors.ENDC)
+                        if spell.efecto:
+                            enemies[enemy_index].add_estado(spell.efecto.copy())
+                            print(f"{enemies[enemy_index].name.strip()} sufre el estado: {spell.efecto['nombre']}.")
                     time.sleep(1)
                     break
 
@@ -164,6 +177,9 @@ def iniciar_combate(players, player_spells, player_items):
                         healed = min(item.prop, allies[ally_index].maxhp - allies[ally_index].hp)
                         allies[ally_index].heal(healed)
                         print(bcolors.OKGREEN + f"    {item.name} cura {healed} HP a {allies[ally_index].name.strip()}" + bcolors.ENDC)
+                        if item.efecto:
+                            allies[ally_index].add_estado(item.efecto.copy())
+                            print(f"{allies[ally_index].name.strip()} sufre el estado: {item.efecto['nombre']}.")
 
                     elif item.type == "elixir":
                         player.hp = player.maxhp
@@ -180,6 +196,9 @@ def iniciar_combate(players, player_spells, player_items):
                             continue
                         enemies[enemy_index].take_damge(item.prop)
                         print(bcolors.FAIL + f"    {item.name} inflige {item.prop} de daño a {enemies[enemy_index].name.strip()}" + bcolors.ENDC)
+                        if item.efecto:
+                            enemies[enemy_index].add_estado(item.efecto.copy())
+                            print(f"{enemies[enemy_index].name.strip()} sufre el estado: {item.efecto['nombre']}.")
                     time.sleep(1)
                     break
 
@@ -189,6 +208,13 @@ def iniciar_combate(players, player_spells, player_items):
         for enemy in enemies:
             if enemy.get_hp() == 0:
                 continue
+
+            saltar_turno = enemy.procesar_estados()
+            if saltar_turno:
+                print(f"{enemy.name.strip()} está aturdido y pierde el turno.")
+                time.sleep(1.5)
+                continue
+
             vivos = [p for p in players if p.get_hp() > 0]
             if not vivos:
                 break
@@ -197,6 +223,7 @@ def iniciar_combate(players, player_spells, player_items):
             target.take_damge(dmg)
             print(bcolors.FAIL + f"    {enemy.name.strip()} ataca a {target.name.strip()} causando {dmg} de daño." + bcolors.ENDC)
             time.sleep(1)
+        input(bcolors.BOLD + "\nPulsa ENTER para continuar..." + bcolors.ENDC)
 
         if all(e.get_hp() == 0 for e in enemies):
             print(bcolors.OKGREEN + bcolors.BOLD + "    ¡Has ganado el combate!" + bcolors.ENDC)
