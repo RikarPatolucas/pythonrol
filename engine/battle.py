@@ -29,26 +29,26 @@ def mostrar_estado(players, enemies):
     os.system('cls' if os.name == 'nt' else 'clear')
     print("                          ===========================")
     print(bcolors.OKGREEN + bcolors.BOLD + "                            ESTADO DE LOS JUGADORES" + bcolors.ENDC)
-    print("                          ===========================\\n")
+    print("                          ===========================\n")
     for player in players:
         indicadores = player.get_estados_abreviados()
         hp_color = color_hp(player.hp, player.maxhp)
         hp_bar = barra_estado(player.hp, player.maxhp)
         mp_bar = barra_estado(player.mp, player.maxmp, 20, color=bcolors.OKBLUE)
-        print(f"    {player.name.strip():<10} {indicadores}" + bcolors.OKGREEN + bcolors.BOLD + "HP" + bcolors.ENDC + f" {hp_bar} " + hp_color + f"{player.hp:>4}/{player.maxhp:<4}" + bcolors.ENDC)
-        print(f"               " + bcolors.OKBLUE + bcolors.BOLD + "MP" + bcolors.ENDC + f" {mp_bar} " + bcolors.OKBLUE + f"{player.mp:>4}/{player.maxmp:<4}" + bcolors.ENDC)
+        print(f" {player.name.strip():<10} {indicadores}" + bcolors.OKGREEN + bcolors.BOLD + "HP" + bcolors.ENDC + f" {hp_bar} " + hp_color + f"{player.hp:>4}/{player.maxhp:<4}" + bcolors.ENDC)
+        print(f"                  " + bcolors.OKBLUE + bcolors.BOLD + "MP" + bcolors.ENDC + f" {mp_bar} " + bcolors.OKBLUE + f"{player.mp:>4}/{player.maxmp:<4}" + bcolors.ENDC)
         print("")
 
-    print("\\n                          =========================")
+    print("\n                          =========================")
     print(bcolors.OKGREEN + bcolors.WARNING + "                            ESTADO DE LOS ENEMIGOS" + bcolors.ENDC)
-    print("                          =========================\\n")
+    print("                          =========================\n")
     for enemy in enemies:
         indicadores = enemy.get_estados_abreviados()
         if enemy.get_hp() == 0:
-            print(f"    {enemy.name.strip():<9} {indicadores}" + bcolors.FAIL + bcolors.BOLD + " HP| "  + "              KO" + bcolors.ENDC)
+            print(f" {enemy.name.strip():<9} {indicadores}" + bcolors.FAIL + bcolors.BOLD + " HP| "  + "              KO" + bcolors.ENDC)
         else:
             bar = barra_estado(enemy.hp, enemy.maxhp, color=bcolors.FAIL)
-            print(f"    {enemy.name.strip():<10} {indicadores}" + bcolors.FAIL + bcolors.BOLD + "HP" + bcolors.ENDC + f"{bar} {enemy.hp:>4}/{enemy.maxhp:<4}")
+            print(f" {enemy.name.strip():<10} {indicadores}" + bcolors.FAIL + bcolors.BOLD + "HP" + bcolors.ENDC + f"{bar} {enemy.hp:>4}/{enemy.maxhp:<4}")
     print()
 
 def pedir_accion(player):
