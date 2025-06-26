@@ -6,12 +6,22 @@ espacio = "\n"
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
+    WHITE = '\033[97m'
+    GREY = '\033[90m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+    BLACK = '\033[30m'
+    RED = '\033[31m'
+    GREEN = '\033[32m'
+    YELLOW = '\033[33m'
+    BLUE = '\033[34m'
+    MAGENTA = '\033[35m'
+    CYAN = '\033[36m'
 class Person:
     def __init__(self, name, hp, mp, atk, df, magic, items, turn):
         self.maxhp=hp
@@ -110,12 +120,20 @@ class Person:
 
 
     def choose_action(self):
-        i=1
-       # print("\n" "    "+ bcolors.BOLD + self.name + bcolors.ENDC )
         print(bcolors.OKBLUE + bcolors.BOLD + "    Acciones" + bcolors.ENDC)
-        for item in self.actions:
-            print("    ", str(i) + ":", item)
-            i += 1
+        for i, item in enumerate(self.actions, 1):
+            if item.lower() == "Atacar":
+                color = bcolors.FAIL
+            elif item.lower() == "Magia":
+                color = bcolors.OKBLUE
+            elif item.lower() in ("Objetos", "objetos"):
+                color = bcolors.OKGREEN
+            elif item.lower() in ("Pasar", "pasar turno"):
+                color = bcolors.GREY
+            else:
+                color = bcolors.ENDC
+            print(f"    {i}: " + color + item + bcolors.ENDC)
+
 
     def choose_magic(self):
         i = 1
